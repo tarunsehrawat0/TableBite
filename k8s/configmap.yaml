@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: tablebite-config
+data:
+  DB_PATH: /data/tablebite.db
+  API_PORT: "3000"
+apiVersion: v1
+kind: ConfigMap
+metadata: { name: qr-config }
+data:
+  DB_HOST: db
+  DB_NAME: qrdb
+  DB_USER: qr

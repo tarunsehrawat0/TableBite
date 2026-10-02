@@ -1,0 +1,9 @@
+node_modules/
+backend/.env
+backend/tablebite.db*
+backend/qr-codes/
+frontend/qr-codes/*.png
+coverage/
+.terraform/
+*.tfstate*
+.DS_Store

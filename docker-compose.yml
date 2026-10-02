@@ -1,0 +1,25 @@
+services:
+  backend:
+    build: ./backend
+    restart: unless-stopped
+    environment:
+      DB_PATH: /data/tablebite.db
+      ADMIN_KEY: ${ADMIN_KEY:-dev-admin-key}
+    volumes:
+      - dbdata:/data
+    ports:
+      - "3000:3000"
+    healthcheck:
+      test: ["CMD", "node", "-e", "fetch('http://localhost:3000/health').then(r => process.exit(r.ok ? 0 : 1)).catch(() => process.exit(1))"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+  frontend:
+    build: ./frontend
+    ports: ["8081:80"]
+    depends_on:
+      backend:
+        condition: service_healthy
+    restart: unless-stopped
+volumes:
+  dbdata:

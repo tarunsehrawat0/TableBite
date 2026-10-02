@@ -1,0 +1,33 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+	name: tablebite-backend
+spec:
+	replicas: 1
+	strategy:
+		type: Recreate
+	selector:
+		matchLabels: { app: tablebite-backend }
+	template:
+		metadata:
+			labels: { app: tablebite-backend }
+		spec:
+			containers:
+				- name: backend
+					image: YOUR_DOCKERHUB_USER/tablebite-backend:latest
+					ports: [{ containerPort: 3000 }]
+					envFrom:
+						- configMapRef: { name: tablebite-config }
+						- secretRef: { name: tablebite-secret }
+					volumeMounts: [{ name: data, mountPath: /data }]
+					readinessProbe:
+						httpGet: { path: /health, port: 3000 }
+			volumes: [{ name: data, persistentVolumeClaim: { claimName: tablebite-data } }]
+---
+apiVersion: v1
+kind: Service
+metadata:
+	name: tablebite-backend
+spec:
+	selector: { app: tablebite-backend }
+	ports: [{ port: 3000, targetPort: 3000 }]

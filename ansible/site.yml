@@ -1,0 +1,20 @@
+---
+- name: Prepare TableBite host
+	hosts: app
+	become: true
+	tasks:
+		- name: Install Docker
+			ansible.builtin.apt:
+				name: [docker.io, docker-compose-plugin]
+				state: present
+				update_cache: true
+		- name: Enable Docker
+			ansible.builtin.service:
+				name: docker
+				state: started
+				enabled: true
+		- name: Create application directory
+			ansible.builtin.file:
+				path: /opt/tablebite
+				state: directory
+				mode: '0755'
