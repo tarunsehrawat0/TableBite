@@ -3,13 +3,8 @@ kind: PersistentVolumeClaim
 metadata:
   name: tablebite-data
 spec:
-  accessModes: [ReadWriteOnce]
+  accessModes:
+    - ReadWriteOnce
   resources:
     requests:
       storage: 1Gi
-apiVersion: v1
-kind: PersistentVolumeClaim
-metadata: { name: db-pvc }
-spec:
-  accessModes: [ReadWriteOnce]
-  resources: { requests: { storage: 1Gi } }
