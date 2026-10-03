@@ -20,6 +20,6 @@ services:
     dockerContext: ./frontend
     envVars:
       - key: BACKEND_HOST
-        value: tablebite-backend.onrender.com
+        value: tablebite-backend-aiq6.onrender.com
       - key: BACKEND_PORT
         value: "80"
