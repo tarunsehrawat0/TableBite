@@ -4,7 +4,7 @@ services:
     runtime: docker
     plan: free
     dockerfilePath: ./backend/Dockerfile
-    dockerContext: .
+    dockerContext: ./backend
     healthCheckPath: /health
     envVars:
       - key: DB_PATH
@@ -17,4 +17,9 @@ services:
     runtime: docker
     plan: free
     dockerfilePath: ./frontend/Dockerfile
-    dockerContext: .
+    dockerContext: ./frontend
+    envVars:
+      - key: BACKEND_HOST
+        value: tablebite-backend.onrender.com
+      - key: BACKEND_PORT
+        value: "80"
