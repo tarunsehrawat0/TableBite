@@ -1,0 +1,20 @@
+services:
+  - type: web
+    name: tablebite-backend
+    runtime: docker
+    plan: free
+    dockerfilePath: ./backend/Dockerfile
+    dockerContext: .
+    healthCheckPath: /health
+    envVars:
+      - key: DB_PATH
+        value: /data/tablebite.db
+      - key: ADMIN_KEY
+        generateValue: true
+
+  - type: web
+    name: tablebite-frontend
+    runtime: docker
+    plan: free
+    dockerfilePath: ./frontend/Dockerfile
+    dockerContext: .
