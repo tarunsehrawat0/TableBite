@@ -1,4 +1,6 @@
 const express = require('express');
+const fs = require('fs');
+const path = require('path');
 const Database = require('better-sqlite3');
 const client = require('prom-client');
 
@@ -7,7 +9,12 @@ app.use(express.json());
 client.collectDefaultMetrics();
 const ordersTotal = new client.Counter({ name: 'orders_total', help: 'Orders placed' });
 
-const db = new Database(process.env.DB_PATH || ':memory:');
+const dbPath = process.env.DB_PATH || ':memory:';
+if (dbPath !== ':memory:') {
+  const dbDir = path.dirname(dbPath);
+  if (!fs.existsSync(dbDir)) fs.mkdirSync(dbDir, { recursive: true });
+}
+const db = new Database(dbPath);
 db.pragma('journal_mode = WAL');
 db.exec(`CREATE TABLE IF NOT EXISTS orders (
   id INTEGER PRIMARY KEY AUTOINCREMENT,
